@@ -554,3 +554,215 @@ javadoc输出的是一个HTML文件，可以用Web浏览器查看。这样，该
 
 #### 2.8.2 语法
 
+所有javadoc命令都只能在“/\*\*”注释中出现，和通常一样，注释结束于“\*/”。使用javadoc的方式主要有两种：嵌入HTML，或使用“文档标签”。独立文档标签是一些以“@”字符开头的命令，且要置于注释的最前面（但是不算前导“\*”之后的最前面）。而“行内文档标签”则可以出现在javadoc注释中的任何地方，它们也是以“@”字符开头，但要括在花括号内。
+
+共有三种类型的注释文档，分别对应于注释位置后面的三种元素：类、域和方法。也就是说，类注释正好位于定义之前；域注释正好位于域定义之前；而方法注释也正好位于方法定义的前面。如下面这个简单的例子所示：
+
+```Java
+//: object/Documentation1.java
+/** A class comment */
+public class Documentation1 {
+    /** A field comment */
+    public int i;
+    /** A method comment */
+    public void f() {}
+} ///:~
+```
+
+注意，javadoc只能为public（公共）和protected（受保护）成员进行文档注释。private（私有）和包内可访问成员（参阅第5章）的注释会被忽略掉，所以输出结果中看不到它们（不过可以用-private进行标记，以便把private成员的注释也包括在内）。这样做是有道理的，因为只有public和protected成员才能在文件之外被使用，这是客户端程序员所期望的。
+
+上述代码的输出结果是一个HTML文件，它与其他Java文档具有相同的标准格式。因此，用户会非常熟悉这种格式，从而方便地导航到用户自己设计的类。输入上述代码，然后通过javadoc处理产生的HTML文件，最后通过浏览器观看生成的结果，这样做是非常值得的。
+
+#### 2.8.3 嵌入式HTML
+
+javadoc通过生成的HTML文档传送HTML命令，这使你能够充分利用HTML。当然，其主要目的还是为了对代码进行格式化，例如：
+
+```Java
+//: object/Documentation2.java
+/**
+ * <pre>
+ * System.out.println(new Date());
+ * <pre>
+ */
+///:~
+```
+
+也可以像在其他Web文档中那样运用HTML，对普通文本按照你自己所描述的进行格式化：
+
+```Java
+//: objects/Documentation3.java
+/**
+ * You can <em>event</em> insert a list:
+ * <ol>
+ * <li> Item one
+ * <li> Item two
+ * <li> Item three
+ * </ol>
+ */
+///:~
+```
+
+注意，在文档注释中，位于每一行开头的星号和前导空格都会被javadoc丢弃。javadoc会对所有内容重新格式化，使其与标准文档的外观一致。不要在嵌入式HTML中使用标题标签，例如<h1>或<hr>，因为javadoc会插入自己的标题，而你的标题可能同它们发生冲突。
+
+所有类型的注释文档——类、域和方法——都支持嵌入式HTML。
+
+#### 2.8.4 一些标签示例
+
+这里将介绍一些可用于代码文档的javadoc标签。在使用javadoc处理重要事情之前，应该先到JDK文档那里查阅javadoc参考，以学习javadoc的各种不同的使用方法。
+
+1. @see：引导其他类
+
+@see标签允许用户引用其他类的文档。javadoc会在其生成的HTML文件中，通过@see标签链接到其他文档。格式如下：
+
+```Java
+@see classname
+@see fully-qualified-classname
+@see fully-qualified-classname#method-name
+```
+
+上述每种格式都会在生成的文档中加入一个具有超链接的“See Also”（参见）条目。但是javadoc不会检查你所提供的超链接是否有效。
+
+2. {@link package.class#member label}
+
+该标签与@see极其相似，只是它用于行内，并且是用“label”作为超链接文本而不用“See Also”。
+
+3. {@docRoot}
+
+该标签产生到文档根目录的相对路径，用于文档树页面的显式超链接。
+
+4. {@inheritDoc}
+
+该标签从当前这个类的最直接的基类中继承相关文档到当前的文档注释中。
+
+5. @version
+
+该标签的格式如下：
+
+```Java
+@version version-information
+```
+
+其中，“version-information”可以是任何你认为适合包含在版本说明中的重要信息。如果javadoc命令行使用了“-version”标记，那么就从生成的HTML文档中特别提取出版本信息。
+
+6. @author
+
+该标签的格式如下：
+
+```Java
+@author author-information
+```
+
+其中，author-information一看便知是你的姓名，但是也可以包括电子邮件地址或者其他任何适宜的信息。如果javadoc命令行使用了-author标记，那么就从生成的HTML文档中特别提取作者信息。
+
+可以使用多个标签，以便列出所有作者，但是它们必须连续放置。全部作者信息会合并到统一段落，置于生成的HTML中。
+
+7. @since
+
+该标签云溪你指定程序代码最早使用的版本，可以在HTML Java文档中看到它被用来指定所用的JDK版本的情况。
+
+8. @param
+
+该标签用于方法文档中，形式如下：
+
+```Java
+@param parameter-name description
+```
+
+其中，parameter-name是方法的参数列表中的标识符，descerption是可延续数行的文本，终止于新的文档标签出现之前。可以使用任意多个这种标签，大约每个参数都有一个这样的标签。
+
+9. @return
+
+该方法用于方法文档，格式如下：
+
+```Java
+@return description
+```
+
+其中，“description”用来描述返回值的含义，可以延续数行。
+
+10. @throws
+
+"异常"将在第9章论述。简言之，它们是由于某个方法调用失败而“抛出”的对象。尽管在调用一个方法时，只出现一个异常对象，但是某个特殊方法可能会产生任意多个不同类型的异常，所有这些异常都需要进行说明。所以，异常标签的格式如下：
+
+```Java
+@throws fully-qualified-class-name description
+```
+
+其中fully-qualified-class-name给出一个异常类的无歧义的名字，而该异常类在别处定义。description（同样可以延续数行）告诉你为什么此特殊类型的异常会在方法调用中出现。
+
+11. @deprecated
+
+该标签用于指出提携旧特性已由改进的新特性所取代，建议用户不要再使用这些旧特性，因为在不久的将来它们很可能被删除。如果使用一个标记为@deprecated的方法，则会引起编译器发布警告。
+
+在Java SE5中，javadoc标签@deprecated已经被@Deprecated注解所替代（我们将在20章中学习相关的知识。）
+
+#### 2.8.5 文档示例
+
+下面再回到第一个Java程序，但是这次加上了文档注释：
+
+```Java
+// object/HelloDate.java
+import java.util.*;
+
+/** The first Thinking in java example program.
+ *  Displays a sttring and today's date.
+ * @author Bruce Eckel
+ * @author www.MindView.net
+ * @version 4.0
+ */
+public class HelloDate {
+    /** Entry point to class & application.
+     * @param args array of string arguments'
+     * @throws exceptions No exceptions thrown
+     */
+    public static void main(String[] args) {
+        System.out.println("Hello. it's:");
+        System.out.println(new Date());
+    }
+}
+/* Output: (55% match)
+Hello. it's:
+Wed Oct 05 14:39:36 MDT 2005
+*///:~
+```
+
+第一行采用我自己独特的方法，用一个“:”作为特殊标记号说明这是包含源文件名的注释行。该行包含文件的路径信息（此时，object代表本章），随后是文件名。最后一行也是一行注释，这个“///:~”标志源代码清单的结束。自此，在通过编译器和执行检查后，文档就可以自动更新成本书的文本。
+
+/\*Output标签标示输出的开始部分将由这个文件生成，通过这种形式，它会被自动地测试以验证其准确性。在本例中，(55% match)在向测试系统说明程序的每一次运行和下一次运行的输出存在很大的差异，因此它们在这里列出的输出一切只有55%的相关性。本书中能够产生输出的大部分示例都包含这种注释方式的输出，因此你可以查看它们的运行输出，并知晓其正确性。
+
+### 2.9 编码风格
+
+在“Java编程语言编码约定”（注释①）中，代码风格是这样规定的：类名的首字母要大写；如果类名由几个单词构成，那么把它们并在一起（也就是说，不要用下划线来分隔名字），其中每个内部单词的首字母都采用大写形式。例如：
+
+> 注释①：网址是[java.sun.com/docs/codeconv/index.html](http://java.sun.com/docs/codeconv/index.html)。为节省本书和课堂演示的篇幅，没有遵循约定中的全部条款，但是你将会看到我在这里所使用的风格尽可能地与Java标准相匹配。
+
+```Java
+class AllTheColorsOfTheRainbow { // ...
+} 
+```
+
+这种风格有时称为“驼峰风格”。几乎其他所有内容——方法、字段（成员变量）以及对象引用名称等，公认的风格与类的风格一样，只是标识符的第一个字母采用小写。例如：
+
+```Java
+class AllTheColorsOfTheRainbow {
+    int anIntegerRepresentingColors;
+    void changeTheHueOfTheColor(int newHue) {
+        // ...
+    }
+    // ...
+}
+```
+
+当然，用户还必须键入所有这些长名字，并且不能输错，因此，一定要格外仔细。
+
+Sun程序库中的Java代码也是采用本书摆放开、闭花括号的方式。
+
+### 2.10 总结
+
+通过本章的学习，大家已解除相当多的关于如何编写一个简单程序的Java编程知识。此外，对Java语言及它的一些基本思想也有了一个总体认识。然而到目前为止，所有示例都是“这样做，再那样做，接着再做另一些事情”这种形式。如果想让程序做出选择，例如，“假如所做的结果是红色，就这样做；否则，就做另一些事情”。这将又怎样进行呢？Java对此种基本变成行为提供的支持，将会在下一章讲述。
+
+### 2.11 练习
+
+所选习题的答案都可以在名为“The Thinking in Java Annitated Solution Guide”的电子文档中找到，读者可以从[www.MindView.net](www.MindView.net)处购买此文档。
+
+练习1：（2）创建一个类，它包含一个int域和一个char域，它们都没有被初始化，将它们的值打印出来，以验证Java执行了默认初始化。
