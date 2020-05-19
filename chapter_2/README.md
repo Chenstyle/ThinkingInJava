@@ -765,4 +765,218 @@ Sun程序库中的Java代码也是采用本书摆放开、闭花括号的方式�
 
 所选习题的答案都可以在名为“The Thinking in Java Annitated Solution Guide”的电子文档中找到，读者可以从[www.MindView.net](www.MindView.net)处购买此文档。
 
-练习1：（2）创建一个类，它包含一个int域和一个char域，它们都没有被初始化，将它们的值打印出来，以验证Java执行了默认初始化。
+**练习1：**（2）创建一个类，它包含一个int域和一个char域，它们都没有被初始化，将它们的值打印出来，以验证Java执行了默认初始化。
+
+```Java
+class Exercise1 {
+    int varInt;
+    char varChar;
+}
+
+class PrintConsole {
+    public static void main(String[] args) {
+        Exercise1 ec1 = new Exercise1();
+        System.out.println(ec1.varInt);
+        System.out.println(ec1.varChar);
+    }
+}
+
+/* Output: (100% match)
+0
+""
+*///:~
+```
+
+**练习2：**（1）参照本章的HelloDate.java这个例子，创建一个“Hello, World”程序，该程序只要输出这句话即可。你所编写的类里只需一个方法（即“main”方法，在程序启动时被执行）。记住要把它设为static形式，并制定参数列表——即使根本不会用到这个列表。用javac进行编译，再用java运行它。如果你使用的是不同于JDK的开发环境，请了解如何在你的环境中进行编译和运行。
+
+```Java
+class Exercise2 {
+    public static void main(String[] args) {
+        println("Hello, World");
+    }
+}
+
+/* Output: (100% match)
+Hello, World
+*///:~
+```
+
+**练习3：**（1）找出含有ATypeName的代码段，将其改写成完整的程序，然后编译、运行。
+
+```Java
+class AtypeName { /* Class body goes here */ }
+```
+
+**练习4：**（1）将DataOnly代码段改写成一个程序，然后编译、运行。
+
+```Java
+class DataOnly {
+    int i;
+    double d;
+    boolean b;
+}
+```
+
+**练习5：**（1）修改前一个练习，将DataOnly中的数据在main()方法中赋值并打印出来。
+
+```Java
+class PrintConsole {
+    DataOnly do = new DataOnly();
+    do.i = 1;
+    do.d = 1.1D;
+    do.b = false;
+    System.out.println(do.i);
+    System.out.println(do.d);
+    System.out.println(do.b);
+}
+
+/* Output: (100% match)
+1
+1.1
+false
+*///:~
+```
+
+**练习6：**（2）编写一个程序，让它含有本章所定义的storage()方法的代码段，并调用之。
+
+```Java
+class Exercise6 {
+
+    int storage(String s) {
+        return s.length() * 2;
+    }
+}
+
+class PrintConsole {
+    public static void main(String[] args) {
+        String words = "Hello, World";
+        Exercise6 ec6 = new Exercose6();
+        int wordsLength = ec6.storage(words);
+        System.out.ptintln(wordsLength);
+    }
+}
+
+/* Output: (100% match)
+12
+*///:~
+```
+
+**练习7：**（1）将Incrementable的代码段改写成一个完整的可运行程序。
+
+```Java
+class StaticTest {
+    static int i = 47;
+}
+
+class Incrementable {
+    static void increment() {
+        StaticTest.i++;
+    }
+}
+
+class PrintConsole {
+    System.out.println(StaticTest.i);
+    Incrementable.increment();
+    System.out.println(StaticTest.i);
+}
+
+/* Output:
+47
+48
+*///:~
+```
+
+**练习8：**（3）编写一个程序，展示你无论创建了某个特定类的多少个对象，这个类中的某个特定的static域只有一个实例。
+
+```Java
+class StaticTest {
+    static i = 47;
+}
+
+class PrintConsole {
+    public static void main(String[] args) {
+        for (int i = 0; i < 1000; i++) {
+            StaticTest st = new StaticTest();
+            System.out.println();
+            if (i == 99) {
+                st.i++;
+            }
+        }
+    }
+}
+
+/*
+ 中间改过一次，后面输出的全是48。
+*/
+```
+
+**练习9：**（2）编写一个程序，展示自动包装功能对所有的基本类型和包装器类型都起作用。
+
+```Java
+class AutoPackage {
+    boolean b1 = false;
+    Boolean b2 = new Boolean(b1);
+    boolean b3 = b2;
+
+    char c1 = 'x';
+    Character c2 = new Character(c1);
+    char c3 = c2;
+
+    byte be1 = 2;
+    Byte be2 = new Byte(be1);
+    byte be3 = be2;
+
+    short s1 = 22;
+    Short s2 = new Short(s1);
+    short s3 = s2;
+
+    int i1 = 1;
+    Integer i2 = new Integer(i1);
+    int i3 = i2;
+
+    long l1 = 122L;
+    Long l2 = new Long(l1);
+    long l3 = l2;
+
+    float f1 = 233f;
+    Float f2 = new Float(f1);
+    float f3 = f2;
+
+    double d1 = 2333D;
+    Double d2 = new Double(d1);
+    double d3 = d2;
+}
+```
+
+**练习10：**（2）编写一个程序，打印出从命令行获得的三个参数。为此，需要确定命令行数组中String的下标。
+
+```Java
+class PrintConsole {
+    public static void main(String[] args) {
+        System.out.println(args[0]);
+        System.out.println(args[1]);
+        System.out.println(args[2]);
+    }
+}
+```
+
+**练习11：**（1）将AllTheColorsOfTheRainbow这个示例改写成一个程序，然后编译、运行。
+
+```Java
+class AllTheColorsOfTheRainbow {
+    int anIntegerRepresentingColors;
+    void changeTheHueOfTheColor(int newHue) {
+        anIntegerRepresentingColors = newHue;
+    }
+}
+```
+
+**练习12：**(2)找出HelloDate.java的第二版本，也就是那个简单注释文档的示例。对该文件执行javadoc，然后通过Web浏览器观看运行结果。
+
+**练习13：**(1)通过Javadoc运行Documentation1.java，Documentation2.java和Documentation3.java，然后通过Web浏览器观看运行结果。
+
+**练习14：**（1）在前一个练习的文档中加入各项的HTML列表。
+
+**练习15：**（1）使用练习2的程序，加入注释文档。用javadoc提取此注释文档，并产生一个HTML文件，然后通过Web浏览器查看结果。
+
+**练习16：**（1）找到第5章中的Overloading.java示例，并为它加入javadoc文档。然后用javadoc提取此注释文档，并产生一个HTML文件，最后，通过Web浏览器查看结果。
