@@ -93,3 +93,95 @@ Linux：在home目录打开Shell。
 ### Windows
 
 1. 以下为Chocolatey的安装说明。
+2. 在命令行提示符下输入下面的命令，等待片刻，结束后Java安装完成并自动完成环境变量设置。
+
+```bash'
+choco install jdk8
+```
+
+### Nacubrish
+
+Mac 系统自带的Java版本太老了，为了确保本书的代码示例能背正确执行，你必须将它更新到Java 8。我们需要管理员权限来运行下面的步骤：
+
+1. 以下为HomeBrew的安装说明。安装完成后执行命令brew update更新到最新版本
+2. 在命令行下执行下面的命令来安装java。
+
+```bash
+brew cask install java
+```
+
+当以上安装都完成后，如果你有需要，可以使用游客账户来运行本书中的代码示例。
+
+### Linux
+
+- Ubuntu/Debian:
+
+```bash
+sudo apt-get update
+sudo apt-get install default-jdk
+```
+
+- Fedora/Redhat
+
+```bash
+    su-c "yum install java-1.8.0-openjdk"(注：执行引号内的内容就可以安装)
+```
+
+## 校验安装
+
+打开新的命令行输入：
+
+```bash
+java -version
+```
+
+正常情况下你应该看到以下类似信息（版本号信息可能不一样）：
+
+```bash
+java version "1.8.0_112"
+Java(TM) SE Runtime Environment (build 1.8.0_112-b15)
+Java HotSpot(TM) 64-Bit Server VM (build 25.112-b15, mixed mode)
+```
+
+如果提示命令找不到或者无法被识别，请根据安装说明重试；如果还不行，尝试到StackOverflow寻找答案。
+
+## 安装和运行代码示例
+
+当Java安装完毕，下一步就是安装本书的代码示例了。安装步骤所有平台一致：
+
+1. 从GitHub仓库中下载本书代码示例
+2. 解压到你所选目录里。
+3. 使用Windows资源管理器，Mac Finder，Linux的Nautilus或其他等效工具浏览，在该目录下打开Shell。
+4. 如果你在正确的目录中，你应该看到该目录中名为gradlew和gradlew.bat的文件，以及许多其他文件和目录。目录与书中的章节相对应。
+5. 在shell中输入下面的命令运行：
+
+```bash
+     Windows 系统：
+          gradlew run
+
+     Mac/Linux 系统：
+        ./gradlew run
+```
+
+第一次安装时Gradle需要安装自身和其他的相关的包，请稍等片刻。安装完成后，后续的安装将会快很多。
+
+注意：第一次运行gradlew命令时必须连接互联网。
+
+### Gradle基础任务
+
+本书构建的大量Gradle任务都可以自动运行。Gradle使用约定大于配置的方式，简单设置即可具备高可用性。本书中“一起去骑行”的某些任务不适用于此或无法执行成功。以下是你通常会使用上的Gradle任务列表。
+
+```bash
+    编译本书中的所有 java 文件，除了部分错误示范的
+    gradlew compileJava
+
+    编译并执行 java 文件（某些文件是库组件）
+    gradlew run
+
+    执行所有的单元测试（在本书第16章会有详细介绍）
+    gradlew test
+
+    编译并运行一个具体的示例程序
+    gradlew <本书章节>:<示例名称>
+    示例：gradlew objects:HelloDate
+```
